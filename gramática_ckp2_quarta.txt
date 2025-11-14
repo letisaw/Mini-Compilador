@@ -1,0 +1,73 @@
+programa : 
+	'INICIO' 'DECLS' blocoDeclaracoes 'FIMDECLS' 'CODIGO' blocoComandos 'FIMPROG';
+
+blocoDeclaracoes : 
+	declaracao blocoDeclaracoes |
+	declaracao;
+
+declaracao : 
+	ID ':' tipo;
+
+tipo : 
+	'INT' | 
+	'FLOAT';
+
+expressaoAritmetica : 
+	expressaoAritmetica '+' termo |
+	expressaoAritmetica '-' termo |
+	termo;
+
+termo : 
+	termo '*' fator |
+	termo '/' fator |
+	fator;
+
+fator : 
+	NUMINT |
+	NUMREAL |
+	ID |
+	'(' expressaoAritmetica ')';
+
+expressaoRelacional : 
+	expressaoRelacional operadorLogico termoRelacional |
+	termoRelacional;
+
+termoRelacional : 
+	expressaoAritmetica OP_REL expressaoAritmetica |
+	'(' expressaoRelacional ')';
+
+operadorLogico : 
+	'E' |
+	'OU';
+
+blocoComandos : 
+	comando blocoComandos |
+	comando;
+
+comando : 
+	atribuicao |
+	entrada |
+	saida |
+	condicional |
+	repeticao |
+	subrotina;
+
+atribuicao : 
+	ID '=' expressaoAritmetica;
+
+entrada : 
+	'LEIA' ID;
+
+saida : 
+	'ESCREVA' '(' (ID | CADEIA) ')';
+
+condicional : 
+	'SE' expressaoRelacional 'ENTAO' comando |
+	'SE' expressaoRelacional 'ENTAO' comando 'SENAO' comando;
+
+repeticao : 
+	'REPITA' expressaoRelacional comando;
+
+subrotina : 
+	'BLOCO' blocoComandos 'FIMBLOCO';
+
